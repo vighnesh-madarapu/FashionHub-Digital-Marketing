@@ -1,8 +1,9 @@
 
+import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from database import get_db_connection, init_db
 from functools import wraps
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
 app.secret_key = "fashionhub-demo-secret-change-before-deployment"
@@ -29,9 +30,63 @@ def home():
     return redirect(url_for("login"))
 
 
+# SIGN UP PAGE
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    if "user_id" in session:
+        return redirect(url_for("dashboard"))
+
+    if request.method == "POST":
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "")
+        confirm_password = request.form.get("confirm_password", "")
+
+        if not username or not password or not confirm_password:
+            flash("Please fill in all fields.", "danger")
+            return render_template("signup.html")
+
+        if len(username) < 3:
+            flash("Username must contain at least 3 characters.", "danger")
+            return render_template("signup.html")
+
+        if len(password) < 6:
+            flash("Password must contain at least 6 characters.", "danger")
+            return render_template("signup.html")
+
+        if password != confirm_password:
+            flash("Passwords do not match.", "danger")
+            return render_template("signup.html")
+
+        connection = get_db_connection()
+
+        try:
+            connection.execute(
+                """
+                INSERT INTO users (username, password_hash)
+                VALUES (?, ?)
+                """,
+                (username, generate_password_hash(password))
+            )
+            connection.commit()
+
+            flash("Account created successfully! Please sign in.", "success")
+            return redirect(url_for("login"))
+
+        except sqlite3.IntegrityError:
+            flash("Username already exists. Choose another one.", "danger")
+
+        finally:
+            connection.close()
+
+    return render_template("signup.html")
+
+
 # LOGIN PAGE
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if "user_id" in session:
+        return redirect(url_for("dashboard"))
+
     if request.method == "POST":
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "")
