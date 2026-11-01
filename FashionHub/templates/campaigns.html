@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Campaigns | FashionHub{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <div>
+        <h2>Marketing Campaigns</h2>
+        <p>Monitor your digital marketing campaign performance.</p>
+    </div>
+    <span class="badge text-bg-light p-3">
+        <i class="bi bi-megaphone me-1"></i> Campaign Analytics
+    </span>
+</div>
+
+<div class="content-card">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h5 class="fw-bold mb-1">All Campaigns</h5>
+            <small class="text-muted">Marketing campaign performance details</small>
+        </div>
+        <span class="badge text-bg-primary">
+            {{ campaigns|length }} Campaigns
+        </span>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Campaign</th>
+                    <th>Channel</th>
+                    <th>Budget</th>
+                    <th>Impressions</th>
+                    <th>Clicks</th>
+                    <th>Conversions</th>
+                    <th>Revenue</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for campaign in campaigns %}
+                <tr>
+                    <td class="fw-semibold">{{ campaign.name }}</td>
+                    <td>{{ campaign.channel or "-" }}</td>
+                    <td>₹{{ "%.2f"|format(campaign.budget) }}</td>
+                    <td>{{ campaign.impressions }}</td>
+                    <td>{{ campaign.clicks }}</td>
+                    <td>{{ campaign.conversions }}</td>
+                    <td>₹{{ "%.2f"|format(campaign.revenue) }}</td>
+                    <td>
+                        {% if campaign.status == "Active" %}
+                            <span class="badge text-bg-success">Active</span>
+                        {% else %}
+                            <span class="badge text-bg-secondary">
+                                {{ campaign.status }}
+                            </span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="8" class="text-center text-muted py-5">
+                        <i class="bi bi-megaphone fs-2 d-block mb-2"></i>
+                        No campaigns available yet.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

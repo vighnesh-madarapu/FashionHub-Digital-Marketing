@@ -1,0 +1,152 @@
+
+{% extends "base.html" %}
+
+{% block title %}Login | FashionHub{% endblock %}
+
+{% block login_content %}
+
+<style>
+    body {
+        margin: 0;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #17152f, #35245f, #6546a5);
+    }
+
+    .login-page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 25px;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 430px;
+        background: #ffffff;
+        padding: 40px 35px;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    }
+
+    .login-icon {
+        width: 75px;
+        height: 75px;
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #7650d5, #a47bf5);
+        color: white;
+        font-size: 35px;
+        border-radius: 20px;
+    }
+
+    .login-card h2 {
+        font-weight: 800;
+        color: #292044;
+    }
+
+    .login-card .subtitle {
+        color: #777;
+        font-size: 14px;
+    }
+
+    .login-card .form-control {
+        min-height: 48px;
+        border-radius: 10px;
+    }
+
+    .login-btn {
+        width: 100%;
+        min-height: 48px;
+        border: none;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #7650d5, #9b70ed);
+        color: white;
+        font-weight: 600;
+    }
+
+    .login-btn:hover {
+        background: linear-gradient(135deg, #6240bd, #8055d5);
+        color: white;
+    }
+
+    .login-footer {
+        color: #888;
+        font-size: 12px;
+    }
+</style>
+
+<div class="login-page">
+    <div class="login-card">
+
+        <div class="text-center mb-4">
+            <div class="login-icon">
+                <i class="bi bi-bag-heart-fill"></i>
+            </div>
+
+            <h2>FashionHub</h2>
+            <p class="subtitle">
+                Digital Marketing & Analytics Dashboard
+            </p>
+        </div>
+
+        <h5 class="fw-bold mb-2">Welcome Back!</h5>
+        <p class="text-muted small mb-4">
+            Login to access your dashboard.
+        </p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('login') }}">
+
+            <div class="mb-3">
+                <label class="form-label small fw-semibold">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    name="username"
+                    class="form-control"
+                    placeholder="Enter username"
+                    required
+                    autocomplete="username">
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label small fw-semibold">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="Enter password"
+                    required
+                    autocomplete="current-password">
+            </div>
+
+            <button type="submit" class="login-btn">
+                Login
+                <i class="bi bi-arrow-right ms-2"></i>
+            </button>
+
+        </form>
+
+        <div class="text-center mt-4 login-footer">
+            FashionHub Internship Project
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

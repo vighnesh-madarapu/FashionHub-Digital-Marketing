@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | FashionHub{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <div>
+        <h2>Dashboard Overview</h2>
+        <p>Welcome to your FashionHub digital marketing dashboard.</p>
+    </div>
+    <span class="badge text-bg-light p-3">
+        <i class="bi bi-calendar3 me-1"></i> Marketing Overview
+    </span>
+</div>
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card">
+            <div class="stat-icon purple">
+                <i class="bi bi-bag"></i>
+            </div>
+            <p>Total Products</p>
+            <h3>{{ products }}</h3>
+            <small class="text-muted">Products in inventory</small>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card">
+            <div class="stat-icon blue">
+                <i class="bi bi-people"></i>
+            </div>
+            <p>Total Customers</p>
+            <h3>{{ customers }}</h3>
+            <small class="text-muted">Registered customers</small>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card">
+            <div class="stat-icon green">
+                <i class="bi bi-megaphone"></i>
+            </div>
+            <p>Marketing Campaigns</p>
+            <h3>{{ campaigns }}</h3>
+            <small class="text-muted">Campaigns created</small>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card">
+            <div class="stat-icon orange">
+                <i class="bi bi-currency-rupee"></i>
+            </div>
+            <p>Total Revenue</p>
+            <h3>₹{{ "%.2f"|format(revenue) }}</h3>
+            <small class="text-muted">Recorded sales revenue</small>
+        </div>
+    </div>
+
+</div>
+
+<div class="row g-4">
+
+    <div class="col-lg-8">
+        <div class="content-card h-100">
+            <h5 class="fw-bold mb-2">Recent Sales</h5>
+            <p class="text-muted small mb-4">
+                Latest sales recorded in FashionHub.
+            </p>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for sale in recent_sales %}
+                        <tr>
+                            <td>{{ sale.product_name or "Product" }}</td>
+                            <td>{{ sale.quantity }}</td>
+                            <td>₹{{ "%.2f"|format(sale.total_amount or 0) }}</td>
+                            <td>{{ sale.sale_date or "-" }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted py-4">
+                                No sales recorded yet.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="content-card h-100">
+            <h5 class="fw-bold mb-3">Marketing Insights</h5>
+
+            <div class="d-flex gap-3 align-items-center mb-4">
+                <div class="stat-icon purple mb-0">
+                    <i class="bi bi-graph-up-arrow"></i>
+                </div>
+                <div>
+                    <strong class="d-block">Campaign Performance</strong>
+                    <small class="text-muted">Track your marketing campaigns.</small>
+                </div>
+            </div>
+
+            <div class="d-flex gap-3 align-items-center mb-4">
+                <div class="stat-icon blue mb-0">
+                    <i class="bi bi-person-check"></i>
+                </div>
+                <div>
+                    <strong class="d-block">Customer Growth</strong>
+                    <small class="text-muted">Understand your customer base.</small>
+                </div>
+            </div>
+
+            <div class="d-flex gap-3 align-items-center">
+                <div class="stat-icon green mb-0">
+                    <i class="bi bi-bar-chart"></i>
+                </div>
+                <div>
+                    <strong class="d-block">Sales Analytics</strong>
+                    <small class="text-muted">Monitor business revenue.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
