@@ -76,6 +76,17 @@
         color: #888;
         font-size: 12px;
     }
+
+    .signup-link {
+        color: #7650d5;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .signup-link:hover {
+        color: #5030a5;
+        text-decoration: underline;
+    }
 </style>
 
 <div class="login-page">
@@ -141,6 +152,17 @@
             </button>
 
         </form>
+
+        <!-- SIGN UP LINK -->
+        <div class="text-center mt-4">
+            <span class="text-muted small">
+                Don't have an account?
+            </span>
+
+            <a href="{{ url_for('signup') }}" class="signup-link">
+                Create Account
+            </a>
+        </div>
 
         <div class="text-center mt-4 login-footer">
             FashionHub Internship Project
