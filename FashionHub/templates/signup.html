@@ -1,0 +1,155 @@
+
+{% extends "base.html" %}
+
+{% block title %}Create Account | FashionHub{% endblock %}
+
+{% block login_content %}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #100b24, #30205a, #17102f);
+        min-height: 100vh;
+    }
+
+    .signup-wrapper {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 30px 15px;
+    }
+
+    .signup-card {
+        width: 100%;
+        max-width: 440px;
+        padding: 38px;
+        border-radius: 22px;
+        background: rgba(255,255,255,0.97);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+
+    .brand-title {
+        text-align: center;
+        font-size: 30px;
+        font-weight: 800;
+        color: #6541c1;
+        margin-bottom: 5px;
+    }
+
+    .signup-subtitle {
+        text-align: center;
+        color: #777;
+        margin-bottom: 28px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #30234d;
+    }
+
+    .form-control {
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #ded8ec;
+    }
+
+    .form-control:focus {
+        border-color: #8055d9;
+        box-shadow: 0 0 0 3px rgba(128,85,217,0.13);
+    }
+
+    .signup-btn {
+        width: 100%;
+        padding: 13px;
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-weight: 700;
+        background: linear-gradient(90deg, #7043c4, #a05ce0);
+        margin-top: 12px;
+    }
+
+    .signup-btn:hover {
+        opacity: 0.92;
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 22px;
+        color: #666;
+    }
+
+    .login-link a {
+        color: #7043c4;
+        font-weight: 700;
+        text-decoration: none;
+    }
+</style>
+
+<div class="signup-wrapper">
+    <div class="signup-card">
+
+        <div class="brand-title">FashionHub</div>
+        <p class="signup-subtitle">Create your account and get started</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('signup') }}">
+
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input
+                    type="text"
+                    name="username"
+                    class="form-control"
+                    placeholder="Create a username"
+                    minlength="3"
+                    required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="Create a password"
+                    minlength="6"
+                    required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Confirm Password</label>
+                <input
+                    type="password"
+                    name="confirm_password"
+                    class="form-control"
+                    placeholder="Re-enter your password"
+                    minlength="6"
+                    required>
+            </div>
+
+            <button type="submit" class="signup-btn">
+                Create Account
+            </button>
+
+        </form>
+
+        <div class="login-link">
+            Already have an account?
+            <a href="{{ url_for('login') }}">Sign In</a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
